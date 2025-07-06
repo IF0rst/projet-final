@@ -116,3 +116,7 @@ La création du webhook sur discord est simple, je me dirige dans les paramètre
 Enfin, pour le code de la github action, j'attends un push sur main et j'installe un contexte ubuntu simple pour faire un CURL vers l'url de mon webhook.
 
 ![connexion](./images/13.PNG)
+
+En se dirigeant sur le salon discord, la notification apparrait bien.
+
+![connexion](./images/16.PNG)
