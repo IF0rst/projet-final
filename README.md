@@ -1,62 +1,39 @@
-# Store application
+# Containerisation et mise en production back + front projet final
+### Pablo Huys
 
-## Project Overview
-This project contains the source code of store application.
+## <u>1. Test en local</u>
 
-On the `back` folder, you will find the source code of the API, developed with express and node.
-On the `front` folder, you will find the source code of the front-end application, developed with Vue3.
-
-## Installation
-
-1. Clone the repository
-2. Install the dependencies on each subfolder (back and front)
-3. Create a `.env` file on the `back` folder with the following content:
+Dans un premier temps, afin de tester la communication entre le front et le back-end,
+j'ai du ouvrir 2 terminaux sur chacune des parties. Pour initialiser les projets node,
+j'ai utilisé la commande:
 ```
-DATABASE_URL=file:./file.db
-JWT_SECRET=your_secret
-BCRYPT_SALT_ROUNDS=10
+npm init
 ```
 
-### Run the back
-1. Go to the `back` folder
-2. Run the following command:
-```bash
+Côté back, j'ai aussi du initialiser la **BDD** avec les commandes:
+```
 npx prisma generate dev
-npm run start
+npx prisma migrate dev
 ```
-3. API is exposed on `http://localhost:3000`
+Une fois ces deux choses de fait, je pouvais accéder au front et me connecter avec un
+compte de test en lançant les deux projets avec ``npm run start et npm run dev``
 
-#### Run the tests
-1. Go to the `back` folder
-2. Run the following command:
-```bash
-npm run test
-```
+![connexion](./images/connect.PNG)
 
-### Run the front
-1. Go to the `front` folder
-2. Make sure the .env file contains the good URL for the API
-```bash
-VITE_API_URL=http://localhost:3000
-```
-3. Run with the following command:
-```bash
-npm run dev
-```
+## <u>2. Création des containers</u>
 
-### Postman collection
+Pour la création des containers, j'ai ajouté un **Dockerfile** dans le front et dans le back,
+ces fichiers se chargent de copier le front et le back dans des containers, d'initialiser la BDD
+et d'exposer les ports puis finalement lancer les applications.
 
-A postman collection is available under the `docs` folder. You can import it directly on Postman to use it.
+Le docker compose lui se charge de créer les services à partir des docker files et de les rassembler dans le 
+même network.
 
-## Contributing
-1. Fork the repository
-2. Create a new branch (`git checkout -b feature-branch`)
-3. Commit your changes (`git commit -am 'Add new feature'`)
-4. Push to the branch (`git push origin feature-branch`)
-5. Create a new Pull Request
+![connexion](./images/containers.PNG)
 
-## License
-This project is licensed under the MIT License.
+Pour ce qui est des images, le front-end est assez light mais le back-end est lourd même
+sous version alpine. Je n'ai pas trouvé comment optimiser d'avantages.
 
-## Contact
-For any inquiries, please contact [quentin.desbin@ynov.com](mailto:quentin.desbin@ynov.com).
+![connexion](./images/images.PNG)
+
+## <u>1. Déploiement avec **Railway**</u>
