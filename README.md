@@ -65,6 +65,10 @@ Railway a bien selectionné docker et se charge de faire le build initial.
 
 Je vais ensuite m'assurer de limiter les ressources du projet pour éviter des frais supplémentaires.
 
+![connexion](./images/12.PNG)
+
+Puis je vais ajouter les variables d'environnement de mon projet directement sur railway (le .env sera remplacé par ces variables)
+
 ![connexion](./images/5.PNG)
 
 Je vais aussi activer l'option CLI pour empêcher le rebuild automatique et ajouter mes propres vérifications.
@@ -76,7 +80,7 @@ Enfin, je vais ajouter un domaine auto-généré pour pouvoir accéder à l'API 
 
 ## <u>4. Mise en place des github actions</u>
 
-### 1) Vérification des vulnérabilités
+### 1) Vérification des vulnérabilités NPM avec npm-audit
 
 Pour commencer , je vais me diriger sur la partie **actions** de mon repository projet-final-back pour y ajouter une action.
 
@@ -89,3 +93,26 @@ Pour les steps, je vais commencer par installer nodeJS et d'installer les dépen
 je vais aussi utiliser **npm-audit** (https://docs.npmjs.com/cli/v7/commands/npm-audit) pour scanner
 le code. Si npm-aduit detecte une vulnérabilité de type "high" alors une erreur sera renvoyée et Railway ne relancera pas le Dockerfile
 
+![connexion](./images/9.PNG)
+
+On peut donc ensuite vérifier si l'audit s'est bien déroulé
+
+![connexion](./images/10.PNG)
+
+Et cela a bien relancé le build côté Railway
+
+![connexion](./images/11.PNG)
+
+### 2) Envoi d'un webhook sur discord l'hors d'un redéploiement
+
+Pour l'envoi d'un webhook, je vais devoir utiliser les **github secrets** qui sont similaire aux variables d'environnement pour un repository github.
+
+Pour se faire, je me dirige sur les paramètres -> Environments -> Production puis j'ajoute l'url de mon webhook discord.
+![connexion](./images/14.PNG)
+
+La création du webhook sur discord est simple, je me dirige dans les paramètres d'un salon textuel et je copie l'url webhook nouvellement créée.
+![connexion](./images/15.PNG)
+
+Enfin, pour le code de la github action, j'attends un push sur main et j'installe un contexte ubuntu simple pour faire un CURL vers l'url de mon webhook.
+
+![connexion](./images/13.PNG)
